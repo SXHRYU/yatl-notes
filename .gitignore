@@ -1,0 +1,5 @@
+.env
+.env.local
+DESCRIPTION.md
+bin
+.vscode

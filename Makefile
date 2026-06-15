@@ -9,3 +9,9 @@ docker-test:
 
 run:
 	go run cmd/server/main.go
+
+format:
+	golangci-lint fmt
+
+lint:
+	golangci-lint run

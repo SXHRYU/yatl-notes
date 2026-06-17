@@ -1,7 +1,5 @@
 package http_server
 
-import "net/http"
-
 // type notesService interface {}
 
 type NotesController struct {
@@ -11,5 +9,3 @@ type NotesController struct {
 func NewNotesController() *NotesController {
 	return &NotesController{}
 }
-
-func (ac *NotesController) CreateNote(rw http.ResponseWriter, req *http.Request) {}

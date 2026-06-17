@@ -3,6 +3,7 @@ module yat-blog-notes
 go 1.26.2
 
 require (
+	github.com/lib/pq v1.12.3
 	github.com/spf13/viper v1.21.0
 )
 

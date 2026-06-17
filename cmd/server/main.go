@@ -10,6 +10,8 @@ import (
 
 	"yat-blog-notes/internal/configs"
 	"yat-blog-notes/internal/infra/http_server"
+	"yat-blog-notes/internal/repositories/postgres"
+
 	http_controllers "yat-blog-notes/internal/infra/http_server/handlers"
 )
 
@@ -19,6 +21,13 @@ func main() {
 		log.Fatalf("could not read config: %v", err)
 	}
 	fmt.Println(config)
+
+	dsn := fmt.Sprintf("postgres://%s@%s:%d", config.Postgres.User, config.Postgres.DB, config.Postgres.Port)
+	notesDb, err := postgres.NewDB(dsn)
+	if err != nil {
+		log.Fatalf("could not start db: %v", err)
+	}
+	defer notesDb.Close()
 
 	controller := http_controllers.NewNotesController()
 	router := http_server.NewRouter(controller)

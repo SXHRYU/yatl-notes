@@ -8,6 +8,7 @@ type Config struct {
 	Postgres struct {
 		User     string
 		Password string
+		Host     string
 		DB       string
 		Port     int
 	}

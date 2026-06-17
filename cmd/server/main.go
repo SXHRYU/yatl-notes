@@ -22,7 +22,14 @@ func main() {
 	}
 	fmt.Println(config)
 
-	dsn := fmt.Sprintf("postgres://%s@%s:%d", config.Postgres.User, config.Postgres.DB, config.Postgres.Port)
+	dsn := fmt.Sprintf(
+		"postgres://%s:%s@%s:%d/%s?sslmode=disable",
+		config.Postgres.User,
+		config.Postgres.Password,
+		config.Postgres.Host,
+		config.Postgres.Port,
+		config.Postgres.DB,
+	)
 	notesDb, err := postgres.NewDB(dsn)
 	if err != nil {
 		log.Fatalf("could not start db: %v", err)

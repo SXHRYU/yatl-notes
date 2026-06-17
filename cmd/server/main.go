@@ -2,15 +2,24 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"yat-blog-notes/internal/configs"
 	"yat-blog-notes/internal/infra/http_server"
 	http_controllers "yat-blog-notes/internal/infra/http_server/handlers"
 )
 
 func main() {
+	config, err := configs.ReadConfig()
+	if err != nil {
+		log.Fatalf("could not read config: %v", err)
+	}
+	fmt.Println(config)
+
 	controller := http_controllers.NewNotesController()
 	router := http_server.NewRouter(controller)
 	server := http_server.NewServer(":8080", router)

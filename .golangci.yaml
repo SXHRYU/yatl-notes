@@ -16,3 +16,8 @@ formatters:
       shorten-comments: true
       reformat-tags: true
       chain-split-dots: true
+
+linters:
+  exclusions:
+    presets:
+      - std-error-handling

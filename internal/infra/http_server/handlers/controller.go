@@ -1,11 +1,20 @@
 package http_server
 
-// type notesService interface {}
+import (
+	"context"
 
-type NotesController struct {
-	// service notesService
+	"yat-blog-notes/internal/configs"
+)
+
+type notesService interface {
+	GetAuthorNotes(ctx context.Context, authorId, page, limit int) ([]string, error)
 }
 
-func NewNotesController() *NotesController {
-	return &NotesController{}
+type NotesController struct {
+	notesSrv notesService
+	config   *configs.Config
+}
+
+func NewNotesController(notesSrv notesService, config *configs.Config) *NotesController {
+	return &NotesController{notesSrv: notesSrv, config: config}
 }

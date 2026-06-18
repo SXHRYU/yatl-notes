@@ -10,9 +10,9 @@ import (
 
 	"yat-blog-notes/internal/configs"
 	"yat-blog-notes/internal/infra/http_server"
-	"yat-blog-notes/internal/repositories/postgres"
-
 	http_controllers "yat-blog-notes/internal/infra/http_server/handlers"
+	"yat-blog-notes/internal/repositories/postgres"
+	"yat-blog-notes/internal/services/notes"
 )
 
 func main() {
@@ -36,7 +36,10 @@ func main() {
 	}
 	defer notesDb.Close()
 
-	controller := http_controllers.NewNotesController()
+	notesRepo := postgres.NewNotesRepository(notesDb)
+	notesService := notes.NewNotesService(notesRepo)
+
+	controller := http_controllers.NewNotesController(notesService, config)
 	router := http_server.NewRouter(controller)
 	server := http_server.NewServer(":8080", router)
 

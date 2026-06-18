@@ -13,11 +13,13 @@ type Config struct {
 		Port     int
 	}
 	Http struct {
-		Host string
-		Port int
+		Host    string
+		Port    int
+		Timeout int
 	}
 }
 
+// TODO: consider migrating to https://github.com/caarlos0/env
 func ReadConfig() (*Config, error) {
 	v := viper.NewWithOptions(viper.KeyDelimiter("__"))
 	v.SetConfigName(".env")

@@ -13,6 +13,7 @@ type Router struct {
 func NewRouter(controller *handlers.NotesController) *Router {
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /create/", isAuthenticated(controller.CreateNote))
+	mux.HandleFunc("GET /", controller.GetAuthorNotes)
 
 	return &Router{
 		mux: mux,

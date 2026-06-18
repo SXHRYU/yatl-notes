@@ -48,6 +48,7 @@ func main() {
 	errorCh := make(chan error, 2)
 
 	go func() {
+		log.Println("Listening on:", config.Http)
 		if err := server.ListenAndServe(); err != nil {
 			errs := []error{err}
 			if cErr := server.Close(); cErr != nil {

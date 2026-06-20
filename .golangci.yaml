@@ -2,14 +2,10 @@ version: "2"
 
 formatters:
   enable:
-    - gofumpt
     - golines
     - gci
 
   settings:
-    gofumpt:
-      extra-rules: true
-
     golines:
       max-len: 90
       tab-len: 4

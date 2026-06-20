@@ -1,9 +1,17 @@
 package notes
 
-import "context"
+import (
+	"context"
+
+	"yat-blog-notes/internal/repositories"
+)
 
 type notesRepository interface {
-	GetNotesByAuthorId(ctx context.Context, authorId, limit, offset int) ([]string, error)
+	CreateNote(ctx context.Context, authorId int, text string) error
+	GetNotesByAuthorId(
+		ctx context.Context,
+		authorId, limit, offset int,
+	) (*repositories.GetNotesByAuthorIdDto, error)
 }
 
 type NotesService struct {

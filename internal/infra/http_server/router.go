@@ -49,7 +49,7 @@ type GetAuthorNotesRequest struct {
 }
 
 type GetAuthorNotesResponse struct {
-	Notes []string
+	Notes handlers.GetAuthorNotesResponse
 }
 
 type ErrorResponse struct {

@@ -44,5 +44,5 @@ func (nc *NotesController) GetAuthorNotes(w http.ResponseWriter, req *http.Reque
 		)
 		return
 	}
-	response.WriteResponse(w, notes, http.StatusOK)
+	response.WriteResponse(w, ToResponseAuthorNotes(notes), http.StatusOK)
 }

@@ -2,13 +2,15 @@ package postgres
 
 import (
 	"context"
+
+	"yat-blog-notes/internal/repositories"
 )
 
 func (nr *NotesRepository) GetNotesByAuthorId(
 	ctx context.Context,
 	authorId, limit, offset int,
-) ([]string, error) {
-	const query = `SELECT text FROM notes WHERE author_id = $1 LIMIT $2 OFFSET $3;`
+) (*repositories.GetNotesByAuthorIdDto, error) {
+	const query = `SELECT * FROM notes WHERE author_id = $1 LIMIT $2 OFFSET $3;`
 	stmt, err := nr.db.PrepareContext(ctx, query)
 	if err != nil {
 		return nil, err
@@ -20,17 +22,22 @@ func (nr *NotesRepository) GetNotesByAuthorId(
 	}
 	defer rows.Close()
 
-	var res []string
+	var res []repositories.Note
 	for rows.Next() {
-		var s string
-		if err := rows.Scan(&s); err != nil {
+		var note repositories.Note
+		if err := rows.Scan(
+			&note.Id,
+			&note.AuthorId,
+			&note.Text,
+			&note.CreatedAt,
+		); err != nil {
 			return nil, err
 		}
-		res = append(res, s)
+		res = append(res, note)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return &repositories.GetNotesByAuthorIdDto{Notes: res}, nil
 }

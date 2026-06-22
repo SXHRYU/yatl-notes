@@ -38,3 +38,12 @@ func ToResponseCreateNote(newNoteId int) *CreateNoteResponse {
 		Id: newNoteId,
 	}
 }
+
+func ToResponseGetNote(note *notes.Note) *Note {
+	return &Note{
+		Id:        note.Id,
+		AuthorId:  note.AuthorId,
+		Text:      note.Text,
+		CreatedAt: note.CreatedAt,
+	}
+}

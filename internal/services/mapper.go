@@ -13,3 +13,12 @@ func ToServiceAuthorNotes(
 	}
 	return &GetNotesByAuthorIdDto{Notes: notes}
 }
+
+func ToServiceNote(note *repositories.Note) *Note {
+	return &Note{
+		Id:        note.Id,
+		AuthorId:  note.AuthorId,
+		Text:      note.Text,
+		CreatedAt: note.CreatedAt,
+	}
+}

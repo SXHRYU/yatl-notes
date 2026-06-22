@@ -7,7 +7,7 @@ import (
 )
 
 type notesRepository interface {
-	CreateNote(ctx context.Context, authorId int, text string) error
+	CreateNote(ctx context.Context, authorId int, text string) (int, error)
 	GetNotesByAuthorId(
 		ctx context.Context,
 		authorId, limit, offset int,

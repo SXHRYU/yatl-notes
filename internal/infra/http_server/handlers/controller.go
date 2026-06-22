@@ -8,6 +8,7 @@ import (
 )
 
 type notesService interface {
+	CreateNote(ctx context.Context, authorId int, text string) (int, error)
 	GetAuthorNotes(
 		ctx context.Context,
 		authorId, page, limit int,

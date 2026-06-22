@@ -17,6 +17,10 @@ type GetAuthorNotesResponse struct {
 	Notes []Note `json:"notes"`
 }
 
+type CreateNoteResponse struct {
+	Id int `json:"id"`
+}
+
 func ToResponseAuthorNotes(
 	serviceDto *notes.GetNotesByAuthorIdDto,
 ) *GetAuthorNotesResponse {
@@ -26,5 +30,11 @@ func ToResponseAuthorNotes(
 	}
 	return &GetAuthorNotesResponse{
 		Notes: notes,
+	}
+}
+
+func ToResponseCreateNote(newNoteId int) *CreateNoteResponse {
+	return &CreateNoteResponse{
+		Id: newNoteId,
 	}
 }

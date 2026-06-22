@@ -10,7 +10,7 @@ formatters:
       max-len: 90
       tab-len: 4
       shorten-comments: true
-      reformat-tags: true
+      reformat-tags: false
       chain-split-dots: true
 
 linters:

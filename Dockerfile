@@ -9,6 +9,9 @@ RUN go build -o /bin/notes_server cmd/server/main.go
 FROM base AS test
 CMD [ "go", "test", "./..." ]
 
+FROM base AS ci
+RUN go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
+
 FROM alpine:3.24 AS prod
 COPY --from=base /bin/notes_server /bin/notes_server
 CMD ["/bin/notes_server"]

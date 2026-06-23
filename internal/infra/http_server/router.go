@@ -34,6 +34,12 @@ func NewRouter(controller *handlers.NotesController) *Router {
 		option.Response(http.StatusOK, new(GetAuthorNotesResponse)),
 		option.Response(http.StatusBadRequest, new(ErrorResponse)),
 	)
+	api.HandleFunc("GET /{id}", controller.GetNote).With(
+		option.Summary("Get note"),
+		option.Request(new(GetNoteRequest)),
+		option.Response(http.StatusOK, new(handlers.Note)),
+		option.Response(http.StatusNotFound, new(ErrorResponse)),
+	)
 
 	return &Router{
 		mux: mux,
@@ -56,6 +62,11 @@ type GetAuthorNotesRequest struct {
 
 type GetAuthorNotesResponse struct {
 	Notes handlers.GetAuthorNotesResponse
+}
+
+// TODO: добавить слаг
+type GetNoteRequest struct {
+	Id int `path:"id" required:"true"`
 }
 
 type CreateNoteRequest struct {

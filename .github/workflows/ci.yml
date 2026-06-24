@@ -18,21 +18,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Build image
-        run: |
-          docker build \
-            --tag "${{ env.IMAGE_NAME }}:${{ github.sha }}" \
-            .
+      - name: Build CI image
+        run: docker build --target ci -t notes:ci .
 
-      - name: Save image
-        run: |
-          docker save \
-            "${{ env.IMAGE_NAME }}:${{ github.sha }}" \
-            | gzip > image.tar.gz
+      - name: Save CI image
+        run: docker save notes:ci | gzip > notes-ci.tar.gz
 
       - name: Upload image artifact
         uses: actions/upload-artifact@v7
         with:
-          name: docker-image
-          path: image.tar.gz
+          name: notes-ci-image
+          path: notes-ci.tar.gz
           retention-days: 1
+
+  lint:
+    name: Lint
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Docker image
+        uses: actions/download-artifact@v8
+        with:
+          name: notes-ci-image
+
+      - name: Load Docker image
+        run: gunzip -c notes-ci.tar.gz | docker load
+
+      - name: Run golangci-lint
+        run: docker run --rm notes:ci golangci-lint run

@@ -66,3 +66,19 @@ jobs:
       - name: Check formatting
         run: docker run --rm notes:ci golangci-lint fmt --diff
 
+  test:
+    name: Tests
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Docker image
+        uses: actions/download-artifact@v8
+        with:
+          name: notes-ci-image
+
+      - name: Load Docker image
+        run: gunzip -c notes-ci.tar.gz | docker load
+
+      - name: Run tests
+        run: docker run --rm notes:ci go test ./...

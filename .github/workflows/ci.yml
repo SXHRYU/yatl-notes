@@ -7,6 +7,7 @@ on:
   pull_request:
 
 env:
+  REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -47,3 +48,21 @@ jobs:
 
       - name: Run golangci-lint
         run: docker run --rm notes:ci golangci-lint run
+
+  format:
+    name: Format
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Docker image
+        uses: actions/download-artifact@v8
+        with:
+          name: notes-ci-image
+
+      - name: Load Docker image
+        run: gunzip -c notes-ci.tar.gz | docker load
+
+      - name: Check formatting
+        run: docker run --rm notes:ci golangci-lint fmt --diff
+

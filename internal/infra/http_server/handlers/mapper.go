@@ -9,6 +9,7 @@ import (
 type Note struct {
 	Id        int       `json:"id"`
 	AuthorId  *int      `json:"author_id"`
+	Title     string    `json:"title"`
 	Text      string    `json:"text"`
 	CreatedAt time.Time `json:"created_at"`
 }
@@ -43,6 +44,7 @@ func ToResponseGetNote(note *notes.Note) *Note {
 	return &Note{
 		Id:        note.Id,
 		AuthorId:  note.AuthorId,
+		Title:     note.Title,
 		Text:      note.Text,
 		CreatedAt: note.CreatedAt,
 	}

@@ -23,6 +23,7 @@ func (nr *NotesRepository) GetNote(
 		&res.AuthorId,
 		&res.Text,
 		&res.CreatedAt,
+		&res.Title,
 	); err != nil {
 		return nil, err
 	}

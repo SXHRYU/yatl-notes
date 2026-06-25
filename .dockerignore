@@ -1,0 +1,11 @@
+.vscode
+.gitignore
+.github
+.git
+.env
+.env.example
+*.md
+Dockerfile
+Makefile
+migrations
+bin

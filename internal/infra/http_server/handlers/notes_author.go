@@ -20,7 +20,7 @@ func (nc *NotesController) GetAuthorNotes(w http.ResponseWriter, req *http.Reque
 		page = v
 	}
 	if v, err := strconv.Atoi(q.Get("limit")); err == nil {
-		limit = v
+		limit = max(limit, v)
 	}
 
 	authorId, err := strconv.Atoi(q.Get("author_id"))

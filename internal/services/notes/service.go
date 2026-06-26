@@ -8,6 +8,7 @@ import (
 
 type notesRepository interface {
 	CreateNote(ctx context.Context, authorId int, text string) (int, error)
+	CountNotesByAuthorId(ctx context.Context, authorId int) (int, error)
 	GetNote(ctx context.Context, noteId int) (*repositories.Note, error)
 	GetNotesByAuthorId(
 		ctx context.Context,

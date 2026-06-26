@@ -4,6 +4,12 @@ import (
 	"time"
 )
 
+type PagedPagination struct {
+	Page  int `json:"page"`
+	Pages int `json:"pages"`
+	Total int `json:"total"`
+}
+
 type Note struct {
 	Id        int       `json:"id"`
 	AuthorId  *int      `json:"author_id"`
@@ -13,5 +19,6 @@ type Note struct {
 }
 
 type GetNotesByAuthorIdDto struct {
-	Notes []Note `json:"notes"`
+	Notes      []Note          `json:"notes"`
+	Pagination PagedPagination `json:"pagination"`
 }

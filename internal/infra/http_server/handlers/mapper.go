@@ -6,6 +6,13 @@ import (
 	notes "yat-blog-notes/internal/services"
 )
 
+// not a lot of records in db so it's ok
+type PagedPagination struct {
+	Page  int `json:"page"`
+	Pages int `json:"pages"`
+	Total int `json:"total"`
+}
+
 type Note struct {
 	Id        int       `json:"id"`
 	AuthorId  *int      `json:"author_id"`
@@ -15,7 +22,8 @@ type Note struct {
 }
 
 type GetAuthorNotesResponse struct {
-	Notes []Note `json:"notes"`
+	Notes      []Note          `json:"notes"`
+	Pagination PagedPagination `json:"pagination"`
 }
 
 type CreateNoteResponse struct {
@@ -31,6 +39,11 @@ func ToResponseAuthorNotes(
 	}
 	return &GetAuthorNotesResponse{
 		Notes: notes,
+		Pagination: PagedPagination{
+			Page:  serviceDto.Pagination.Page,
+			Pages: serviceDto.Pagination.Pages,
+			Total: serviceDto.Pagination.Total,
+		},
 	}
 }
 

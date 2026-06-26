@@ -8,13 +8,14 @@ import (
 	"time"
 
 	response "yat-blog-notes/internal/infra/http_server/response"
+	"yat-blog-notes/internal/pagination"
 )
 
 func (nc *NotesController) GetAuthorNotes(w http.ResponseWriter, req *http.Request) {
 	q := req.URL.Query()
 
 	page := 1
-	limit := 20
+	limit := pagination.DefaultSize
 
 	if v, err := strconv.Atoi(q.Get("page")); err == nil {
 		page = v

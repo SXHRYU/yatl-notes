@@ -11,7 +11,7 @@ func (nr *NotesRepository) GetNotesByAuthorId(
 	authorId, limit, offset int,
 ) (*repositories.GetNotesByAuthorIdDto, error) {
 	const query = `
-		SELECT id, author_id, title, text, created_at
+		SELECT id, author_id, slug, title, text, created_at
 		FROM notes WHERE author_id = $1 LIMIT $2 OFFSET $3;
 	`
 	stmt, err := nr.db.PrepareContext(ctx, query)
@@ -31,6 +31,7 @@ func (nr *NotesRepository) GetNotesByAuthorId(
 		if err := rows.Scan(
 			&note.Id,
 			&note.AuthorId,
+			&note.Slug,
 			&note.Title,
 			&note.Text,
 			&note.CreatedAt,

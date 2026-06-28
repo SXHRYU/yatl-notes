@@ -24,7 +24,7 @@ func NewRouter(controller *handlers.NotesController) *Router {
 	api.HandleFunc("POST /create/", isAuthenticated(controller.CreateNote)).With(
 		option.Summary("Create note"),
 		option.Request(new(CreateNoteRequest)),
-		option.Response(http.StatusCreated, new(GetAuthorNotesResponse)),
+		option.Response(http.StatusCreated, new(handlers.CreateNoteResponse)),
 		option.Response(http.StatusBadRequest, new(ErrorResponse)),
 		option.Response(http.StatusRequestEntityTooLarge, new(ErrorResponse)),
 	)
@@ -73,10 +73,6 @@ type CreateNoteRequest struct {
 	// TODO: убрать как появится JWT
 	UserId int    `header:"User-Id" required:"true"`
 	Text   string `required:"true" json:"text" minLength:"1" maxLength:"10<<10"`
-}
-
-type CreateNoteResponse struct {
-	Id int
 }
 
 type ErrorResponse struct {

@@ -6,7 +6,7 @@ func (nr *NotesRepository) CountNotesByAuthorId(
 	ctx context.Context,
 	authorId int,
 ) (int, error) {
-	query := `SELECT COUNT(*) FROM notes WHERE author_id = $1;`
+	const query = `SELECT COUNT(*) FROM notes WHERE author_id = $1;`
 	stmt, err := nr.db.PrepareContext(ctx, query)
 	if err != nil {
 		return 0, err

@@ -10,7 +10,10 @@ func (nr *NotesRepository) GetNotesByAuthorId(
 	ctx context.Context,
 	authorId, limit, offset int,
 ) (*repositories.GetNotesByAuthorIdDto, error) {
-	const query = `SELECT * FROM notes WHERE author_id = $1 LIMIT $2 OFFSET $3;`
+	const query = `
+		SELECT id, author_id, title, text, created_at
+		FROM notes WHERE author_id = $1 LIMIT $2 OFFSET $3;
+	`
 	stmt, err := nr.db.PrepareContext(ctx, query)
 	if err != nil {
 		return nil, err
@@ -28,9 +31,9 @@ func (nr *NotesRepository) GetNotesByAuthorId(
 		if err := rows.Scan(
 			&note.Id,
 			&note.AuthorId,
+			&note.Title,
 			&note.Text,
 			&note.CreatedAt,
-			&note.Title,
 		); err != nil {
 			return nil, err
 		}

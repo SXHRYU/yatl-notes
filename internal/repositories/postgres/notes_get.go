@@ -10,7 +10,10 @@ func (nr *NotesRepository) GetNote(
 	ctx context.Context,
 	noteId int,
 ) (*repositories.Note, error) {
-	query := `SELECT * FROM notes WHERE id = $1;`
+	const query = `
+		SELECT id, author_id, title, text, created_at
+		FROM notes WHERE id = $1;
+	`
 	stmt, err := nr.db.PrepareContext(ctx, query)
 	if err != nil {
 		return nil, err
@@ -21,9 +24,9 @@ func (nr *NotesRepository) GetNote(
 	if err := stmt.QueryRowContext(ctx, noteId).Scan(
 		&res.Id,
 		&res.AuthorId,
+		&res.Title,
 		&res.Text,
 		&res.CreatedAt,
-		&res.Title,
 	); err != nil {
 		return nil, err
 	}

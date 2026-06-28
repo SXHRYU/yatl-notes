@@ -26,6 +26,7 @@ func ToServiceNote(note *repositories.Note) *Note {
 	return &Note{
 		Id:        note.Id,
 		AuthorId:  note.AuthorId,
+		Title:     note.Title,
 		Text:      note.Text,
 		CreatedAt: note.CreatedAt,
 	}

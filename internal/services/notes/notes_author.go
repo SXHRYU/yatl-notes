@@ -2,6 +2,7 @@ package notes
 
 import (
 	"context"
+	"strings"
 
 	"golang.org/x/sync/errgroup"
 	"yat-blog-notes/internal/pagination"
@@ -42,10 +43,34 @@ func (nc *NotesService) GetAuthorNotes(
 		return nil, err
 	}
 
+	for i := range response.Notes {
+		shortenNote(&response.Notes[i].Text)
+	}
 	return notes.ToServiceAuthorNotes(
 		response,
 		page,
 		pagination.TotalPages(count, pagination.DefaultSize),
 		count,
 	), nil
+}
+
+func shortenNote(s *string) {
+	const maxTitleSize = 200
+	builder := strings.Builder{}
+	builder.Grow(maxTitleSize)
+	var isBigText bool
+	for i, ch := range *s {
+		builder.WriteRune(ch)
+		// we should count separately 1-byte and 2-, 3-bytes letters
+		// space required for "..."
+		if i/2+4 >= maxTitleSize {
+			isBigText = true
+			break
+		}
+	}
+
+	if isBigText {
+		builder.WriteString("...")
+	}
+	*s = builder.String()
 }

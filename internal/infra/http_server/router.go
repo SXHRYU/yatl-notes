@@ -31,7 +31,7 @@ func NewRouter(controller *handlers.NotesController) *Router {
 	api.HandleFunc("GET /", controller.GetAuthorNotes).With(
 		option.Summary("Get author's notes"),
 		option.Request(new(GetAuthorNotesRequest)),
-		option.Response(http.StatusOK, new(GetAuthorNotesResponse)),
+		option.Response(http.StatusOK, new(handlers.GetAuthorNotesResponse)),
 		option.Response(http.StatusBadRequest, new(ErrorResponse)),
 	)
 	api.HandleFunc("GET /{id}", controller.GetNote).With(
@@ -58,10 +58,6 @@ type PageLimitPaginated struct {
 type GetAuthorNotesRequest struct {
 	PageLimitPaginated
 	AuthorId string `query:"author_id" required:"true"`
-}
-
-type GetAuthorNotesResponse struct {
-	Notes handlers.GetAuthorNotesResponse
 }
 
 // TODO: добавить слаг

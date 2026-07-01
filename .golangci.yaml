@@ -14,6 +14,10 @@ formatters:
       chain-split-dots: true
 
 linters:
+  enable:
+    - gosec
+    - staticcheck
+    - govet
   exclusions:
     presets:
       - std-error-handling

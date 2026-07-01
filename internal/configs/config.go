@@ -13,9 +13,10 @@ type Config struct {
 		Port     int
 	}
 	Http struct {
-		Host    string
-		Port    int
-		Timeout int
+		Host              string
+		Port              int
+		Timeout           int
+		ReadHeaderTimeout int
 	}
 }
 

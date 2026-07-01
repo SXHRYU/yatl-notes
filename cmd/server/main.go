@@ -41,7 +41,7 @@ func main() {
 
 	controller := http_controllers.NewNotesController(notesService, config)
 	router := http_server.NewRouter(controller)
-	server := http_server.NewServer(":8080", router)
+	server := http_server.NewServer(":8080", router, config)
 
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, syscall.SIGINT, syscall.SIGTERM)

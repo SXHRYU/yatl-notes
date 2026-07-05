@@ -2,6 +2,7 @@ package notes
 
 import (
 	"context"
+	"slices"
 	"strings"
 
 	"golang.org/x/sync/errgroup"
@@ -46,6 +47,10 @@ func (nc *NotesService) GetAuthorNotes(
 	for i := range response.Notes {
 		shortenNote(&response.Notes[i].Text)
 	}
+
+	slices.SortFunc(response.Notes, func(i, j repositories.Note) int {
+		return -i.CreatedAt.Compare(j.CreatedAt)
+	})
 	return notes.ToServiceAuthorNotes(
 		response,
 		page,

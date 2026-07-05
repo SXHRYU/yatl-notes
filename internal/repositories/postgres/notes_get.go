@@ -33,3 +33,31 @@ func (nr *NotesRepository) GetNote(
 
 	return &res, nil
 }
+
+func (nr *NotesRepository) GetNoteBySlug(
+	ctx context.Context,
+	slug string,
+) (*repositories.Note, error) {
+	const query = `
+		SELECT id, author_id, title, text, created_at
+		FROM notes WHERE slug = $1;
+	`
+	stmt, err := nr.db.PrepareContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var res repositories.Note
+	if err := stmt.QueryRowContext(ctx, slug).Scan(
+		&res.Id,
+		&res.AuthorId,
+		&res.Title,
+		&res.Text,
+		&res.CreatedAt,
+	); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}

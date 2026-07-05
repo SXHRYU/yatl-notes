@@ -10,6 +10,7 @@ type mockNotesRepo struct {
 	createNoteFn         func(ctx context.Context, authorId int, text string) (int, error)
 	countNotesByAuthorFn func(ctx context.Context, authorId int) (int, error)
 	getNoteFn            func(ctx context.Context, noteId int) (*repositories.Note, error)
+	getNoteBySlugFn      func(ctx context.Context, slug string) (*repositories.Note, error)
 	getNotesByAuthorFn   func(ctx context.Context, authorId, limit, offset int) (*repositories.GetNotesByAuthorIdDto, error)
 }
 
@@ -33,6 +34,13 @@ func (m *mockNotesRepo) GetNote(
 	noteId int,
 ) (*repositories.Note, error) {
 	return m.getNoteFn(ctx, noteId)
+}
+
+func (m *mockNotesRepo) GetNoteBySlug(
+	ctx context.Context,
+	slug string,
+) (*repositories.Note, error) {
+	return m.getNoteBySlugFn(ctx, slug)
 }
 
 func (m *mockNotesRepo) GetNotesByAuthorId(
